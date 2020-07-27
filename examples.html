@@ -13,6 +13,7 @@
     <link rel="prefetch" href="/" as="document" />
     <link rel="prefetch" href="/docs.html" as="document" />
     <link rel="prefetch" href="/components.html" as="document" />
+    <script src="https://unpkg.com/nano-jsx@0.0.10/bundles/nano.slim.min.js"></script>
   </head>
   <body>
     <div id="root">
@@ -35,6 +36,46 @@
 
         <h2>Checkbox</h2>
         <pre><code id="checkbox" class="language-tsx">loading...</code></pre>
+        <div class="code-result">
+          <div id="checkbox-result"></div>
+
+          <script>
+            const { render, jsx, Component } = nanoJSX
+            class Checkbox extends Component {
+              checked = true
+
+              toggle = e => {
+                this.checked = !this.checked
+                this.update()
+              }
+
+              render() {
+                const Text = this.checked ? jsx`<p>is checked</p>` : []
+
+                console.log(
+                  Object.assign(this.checked ? { checked: true } : {}, {})
+                )
+
+                return jsx`
+                  <div>
+                    <input
+                      id="checkbox"
+                      type="checkbox"
+                      ...${this.checked ? { checked: true } : {}}
+                      onClick="${this.toggle}"
+                    />
+                    ${Text}
+                  </div>
+                `
+              }
+            }
+
+            render(
+              jsx`<${Checkbox} />`,
+              document.getElementById('checkbox-result')
+            )
+          </script>
+        </div>
 
         <h2>Fetch Data</h2>
         <p>Fetch data inside didMount().</p>
